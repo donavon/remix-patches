@@ -1,0 +1,13 @@
+{
+  "name": "remix-patches",
+  "version": "0.1.0",
+  "description": "Patch Remix to add extra features",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Donavon West <github@donavon.com> (https://donavon.com/)",
+  "license": "MIT",
+  "peerDependencies": {
+    "patch-package": "~6.4.7"
+  }
+}
