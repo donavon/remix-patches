@@ -1,0 +1,27 @@
+diff --git a/node_modules/@remix-run/dev/config.js b/node_modules/@remix-run/dev/config.js
+index 7a1c85b..cf281a1 100644
+--- a/node_modules/@remix-run/dev/config.js
++++ b/node_modules/@remix-run/dev/config.js
+@@ -19,6 +19,7 @@ var routes = require('./config/routes.js');
+ var routesConvention = require('./config/routesConvention.js');
+ var serverModes = require('./config/serverModes.js');
+ var virtualModules = require('./compiler/virtualModules.js');
++var bundleRequire = require('bundle-require').bundleRequire;
+ 
+ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
+ 
+@@ -58,11 +59,12 @@ async function readConfig(remixRoot, serverMode = serverModes.ServerMode.Product
+   }
+ 
+   let rootDirectory = path__namespace.resolve(remixRoot);
+-  let configFile = path__namespace.resolve(rootDirectory, "remix.config.js");
++  let configFile = path__namespace.resolve(rootDirectory, "remix.config.ts");
+   let appConfig;
+ 
+   try {
+-    appConfig = require(configFile);
++    const { mod } = await bundleRequire({filepath: configFile});
++    appConfig = typeof mod.default === "function" ? await mod.default() : mod;
+   } catch (error) {
+     throw new Error(`Error loading Remix config in ${configFile}`);
+   }

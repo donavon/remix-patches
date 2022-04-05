@@ -18,9 +18,10 @@ For example, the following will patch Remix to allow Open Graph verticals suppor
 
 ## Patches
 
-| Patch name                     | Description                  |
-| ------------------------------ | ---------------------------- |
-| [og-verticals](./og-verticals) | Open Graph verticals support |
+| Patch name                           | Description                                        |
+| ------------------------------------ | -------------------------------------------------- |
+| [og-verticals](./og-verticals)       | Open Graph verticals support                       |
+| [remix-config-ts](./remix-config-ts) | Adds TypeScript support for your Remix config file |
 
 See the README file in each individual patches folder for more information.
 
