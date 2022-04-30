@@ -20,6 +20,7 @@ For example, the following will patch Remix to allow Open Graph verticals suppor
 
 | Patch name                           | Description                                        |
 | ------------------------------------ | -------------------------------------------------- |
+| [mdx-data](./mdx-data)               | Exposes the `data` returned from Remark plugins    |
 | [og-verticals](./og-verticals)       | Open Graph verticals support                       |
 | [remix-config-ts](./remix-config-ts) | Adds TypeScript support for your Remix config file |
 
@@ -27,4 +28,4 @@ See the README file in each individual patches folder for more information.
 
 ## License
 
-Copyright (c) 2020 Donavon West. Released under the [MIT License](./LICENSE).
+Copyright (c) 2022 Donavon West. Released under the [MIT License](./LICENSE).

@@ -1,0 +1,61 @@
+diff --git a/node_modules/@remix-run/dev/compiler/plugins/mdx.js b/node_modules/@remix-run/dev/compiler/plugins/mdx.js
+index 7254966..721b7ba 100644
+--- a/node_modules/@remix-run/dev/compiler/plugins/mdx.js
++++ b/node_modules/@remix-run/dev/compiler/plugins/mdx.js
+@@ -57,7 +57,7 @@ function mdxPlugin(config) {
+         filter: /\.mdx?$/
+       }, async args => {
+         try {
+-          let contents = await fs.promises.readFile(args.path, "utf-8");
++          let fileContents = await fs.promises.readFile(args.path, "utf-8");
+           let rehypePlugins = [];
+           let remarkPlugins = [remarkFrontmatter, [remarkMdxFrontmatter.remarkMdxFrontmatter, {
+             name: "attributes"
+@@ -75,14 +75,7 @@ function mdxPlugin(config) {
+               remarkPlugins.push(...((mdxConfig === null || mdxConfig === void 0 ? void 0 : mdxConfig.remarkPlugins) || []));
+               break;
+           }
+-
+-          let remixExports = `
+-export const filename = ${JSON.stringify(path__namespace.basename(args.path))};
+-export const headers = typeof attributes !== "undefined" && attributes.headers;
+-export const meta = typeof attributes !== "undefined" && attributes.meta;
+-export const links = undefined;
+-          `;
+-          let compiled = await xdm.compile(contents, {
++          let compiled = await xdm.compile(fileContents, {
+             jsx: true,
+             jsxRuntime: "classic",
+             pragma: "React.createElement",
+@@ -90,9 +83,17 @@ export const links = undefined;
+             rehypePlugins,
+             remarkPlugins
+           });
+-          contents = `
++
++          const contents = `
+ ${compiled.value}
+-${remixExports}`;
++
++export const filename = ${JSON.stringify(path.basename(args.path))};
++export const headers = typeof attributes !== "undefined" && attributes.headers;
++export const meta = typeof attributes !== "undefined" && attributes.meta;
++export const links = undefined;
++export const data = ${JSON.stringify(compiled.data)};
++`;
++
+           let errors = [];
+           let warnings = [];
+           compiled.messages.forEach(message => {
+diff --git a/node_modules/@remix-run/dev/modules.d.ts b/node_modules/@remix-run/dev/modules.d.ts
+index 5ccbf7d..f2598e4 100644
+--- a/node_modules/@remix-run/dev/modules.d.ts
++++ b/node_modules/@remix-run/dev/modules.d.ts
+@@ -37,6 +37,7 @@ declare module "*.md" {
+ declare module "*.mdx" {
+     import type { ComponentType as MdxComponentType } from "react";
+     export let attributes: any;
++    export let data: any;
+     export let filename: string;
+     let Component: MdxComponentType;
+     export default Component;
